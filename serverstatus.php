@@ -4,7 +4,7 @@
     $pingport = 30120;
 
     if($fp = @fsockopen($pinghost, $pingport, $errCode, $errStr, $wait)) {
-        echo "Server Status: <greens><i class='fas fa-circle'></i></greens><br><br>";
+        echo "Server Status: Online<br><br>";
         $servername = "localhost";
         $username = "DBUSER";
         $password = "DBPASS";
@@ -23,7 +23,7 @@
         if ($result->num_rows > 0) {
             echo "<h3>Online Players:</h3>";
             while($row = $result->fetch_assoc()) {
-                echo "<h5><greens>&#x2022;</greens> ". $row["name"]. " [" . $row["firstname"]. " " . $row["lastname"]. "]</h5>";
+                echo "<h5>&#x2022; ". $row["name"]. " [" . $row["firstname"]. " " . $row["lastname"]. "]</h5>";
             }
         } else {
             echo "<h3>Online Players:</h3>";
@@ -32,6 +32,6 @@
 
         $conn->close();
     } else {
-        echo "Server Status: <reds><i class='fas fa-circle'></i></reds><br><br>";
+        echo "Server Status: Offline<br><br>";
     }
 ?>
