@@ -1,16 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
+local Debug = true
+
 RegisterNetEvent('fb-sitequery:Login', function(online)
     UpdateSQL(online)
-    --print(Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname)
-    --print(online)
 end)
 
 RegisterNetEvent('fb-sitequery:Logout', function(online)
     UpdateSQL(online)
-    --MySQL.update('UPDATE website SET online = ? WHERE citizenid = ?', { online, Player.PlayerData.citizenid })
-    --print(Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname)
-    --print(online)
 end)
 
 RegisterNetEvent('fb-sitequery:LogoutAll', function(online)
@@ -26,7 +23,7 @@ AddEventHandler('playerDropped', function(reason)
     local online = 0
     local result = MySQL.Sync.fetchAll('SELECT online FROM website WHERE citizenid = ?', { Player.PlayerData.citizenid })
     local status = online
-    print(status)
+    if Debug then print(status) end
     if result[1] == nil then
         MySQL.insert('INSERT INTO website (citizenid, name, firstname, lastname, online) VALUES (:citizenid, :name, :firstname, :lastname, :online) ON DUPLICATE KEY UPDATE online = :online', {
             citizenid = Player.PlayerData.citizenid,
@@ -36,7 +33,7 @@ AddEventHandler('playerDropped', function(reason)
             online = status
         })
     else
-        print(status .. ': I got the status, boss!')
+        if Debug then print(status .. ': I got the status, boss!') end
         MySQL.update('UPDATE website SET online = ? WHERE citizenid = ?', { status, Player.PlayerData.citizenid })
     end
 end)
@@ -46,7 +43,7 @@ function UpdateSQL(online)
     local Player = QBCore.Functions.GetPlayer(src)
     local result = MySQL.Sync.fetchAll('SELECT online FROM website WHERE citizenid = ?', { Player.PlayerData.citizenid })
     local status = online
-    print(status)
+    if Debug then print(status) end
     if result[1] == nil then
         MySQL.insert('INSERT INTO website (citizenid, name, firstname, lastname, online) VALUES (:citizenid, :name, :firstname, :lastname, :online) ON DUPLICATE KEY UPDATE online = :online', {
             citizenid = Player.PlayerData.citizenid,
@@ -56,7 +53,7 @@ function UpdateSQL(online)
             online = status
         })
     else
-        print(status .. ': I got the status, boss!')
+        if Debug then print(status .. ': I got the status, boss!') end
         MySQL.update('UPDATE website SET online = ? WHERE citizenid = ?', { status, Player.PlayerData.citizenid })
     end
 end

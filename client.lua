@@ -1,26 +1,21 @@
 local online = 0
 
+local Debug = true
+
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     online = 1
     TriggerServerEvent('fb-sitequery:Login', online)
-    print('Logging in...')
+    if Debug then print('Logging in...') end
 end)
 
 RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
     online = 0
     TriggerServerEvent('fb-sitequery:Logout', online)
-    print('Logging out...')
+    if Debug then print('Logging out...') end
 end)
 
 RegisterNetEvent('fb-sitequery:MakeSureThatShitCloses', function()
     online = 0
     TriggerEvent('QBCore:Client:OnPlayerUnload', source)
-    --TriggerServerEvent('fb-sitequery:Logout', online)
-    print('Logging out via menu...')
+    if Debug then print('Logging out via menu...') end
 end)
-
---[[ AddEventHandler("onResourceStart", function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        --online = 0
-    end
-end ]]
